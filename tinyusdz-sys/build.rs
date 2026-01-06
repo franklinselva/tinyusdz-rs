@@ -13,7 +13,10 @@ fn main() {
     // First check if tinyusdz exists as a sibling directory (for local development)
     let local_tinyusdz = manifest_dir.parent().unwrap().join("tinyusdz");
     let tinyusdz_dir = if local_tinyusdz.join("CMakeLists.txt").exists() {
-        println!("cargo:warning=Using local tinyusdz source at {:?}", local_tinyusdz);
+        println!(
+            "cargo:warning=Using local tinyusdz source at {:?}",
+            local_tinyusdz
+        );
         local_tinyusdz
     } else {
         // Download tinyusdz source
@@ -108,7 +111,10 @@ fn download_tinyusdz(out_dir: &PathBuf) -> PathBuf {
 
     // Check if already downloaded
     if tinyusdz_dir.join("CMakeLists.txt").exists() {
-        println!("cargo:warning=Using cached tinyusdz source at {:?}", tinyusdz_dir);
+        println!(
+            "cargo:warning=Using cached tinyusdz source at {:?}",
+            tinyusdz_dir
+        );
         return tinyusdz_dir;
     }
 
@@ -148,6 +154,9 @@ fn download_tinyusdz(out_dir: &PathBuf) -> PathBuf {
     // Clean up archive
     let _ = fs::remove_file(&archive_path);
 
-    println!("cargo:warning=Downloaded tinyusdz source to {:?}", tinyusdz_dir);
+    println!(
+        "cargo:warning=Downloaded tinyusdz source to {:?}",
+        tinyusdz_dir
+    );
     tinyusdz_dir
 }
