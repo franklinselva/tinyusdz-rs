@@ -1,0 +1,35 @@
+[workspace]
+members = ["tinyusdz-sys"]
+resolver = "2"
+
+[package]
+name = "tinyusdz-rs"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Rust bindings for tinyusdz USD parser"
+repository = "https://github.com/franklinselva/tinyusdz-rs"
+keywords = ["usd", "usdz", "3d", "graphics", "parser"]
+categories = ["graphics", "parsing", "game-development"]
+
+[dependencies]
+tinyusdz-sys = { path = "tinyusdz-sys" }
+thiserror = "2.0"
+half = "2.4"
+
+[dev-dependencies]
+gltf = "1.4"
+gltf-json = "1.4"
+anyhow = "1.0"
+
+[[example]]
+name = "parse_usdz"
+path = "examples/parse_usdz.rs"
+
+[[example]]
+name = "dump_hierarchy"
+path = "examples/dump_hierarchy.rs"
+
+[[example]]
+name = "usd_to_glb"
+path = "examples/usd_to_glb.rs"

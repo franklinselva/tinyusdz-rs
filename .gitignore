@@ -1,0 +1,22 @@
+# Rust
+/target/
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+*.a
+*.so
+*.dylib
+*.dll
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated bindings
+tinyusdz-sys/src/bindings.rs

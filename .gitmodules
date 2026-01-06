@@ -1,0 +1,4 @@
+[submodule "tinyusdz"]
+	path = tinyusdz
+	url = https://github.com/lighttransport/tinyusdz.git
+	branch = dev
