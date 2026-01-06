@@ -63,9 +63,10 @@ pub enum ValueType {
 }
 
 /// A USD value that can hold various types.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Default)]
 pub enum Value {
     /// No value.
+    #[default]
     None,
     /// Boolean value.
     Bool(bool),
@@ -359,8 +360,3 @@ impl Value {
     }
 }
 
-impl Default for Value {
-    fn default() -> Self {
-        Value::None
-    }
-}

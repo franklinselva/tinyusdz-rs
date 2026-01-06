@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Raw FFI bindings for tinyusdz"
+repository = "https://github.com/franklinselva/tinyusdz-rs"
+keywords = ["usd", "usdz", "ffi", "bindings"]
+categories = ["external-ffi-bindings", "graphics"]
 links = "tinyusdz"
 build = "build.rs"
 

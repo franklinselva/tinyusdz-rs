@@ -219,7 +219,10 @@ impl<'a> StageTraversal<'a> {
         // Collect results
         let prims: Vec<Prim<'a>> = {
             let guard = TRAVERSAL_PRIMS.lock().unwrap();
-            guard.iter().map(|ptr| unsafe { Prim::from_ptr(ptr.0) }).collect()
+            guard
+                .iter()
+                .map(|ptr| unsafe { Prim::from_ptr(ptr.0) })
+                .collect()
         };
 
         StageTraversal {

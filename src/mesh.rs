@@ -177,6 +177,7 @@ fn identity_matrix() -> [[f64; 4]; 4] {
 }
 
 /// Multiplies two 4x4 matrices.
+#[allow(clippy::needless_range_loop)]
 pub fn matrix_multiply(a: [[f64; 4]; 4], b: [[f64; 4]; 4]) -> [[f64; 4]; 4] {
     let mut result = [[0.0; 4]; 4];
     for i in 0..4 {
@@ -192,9 +193,29 @@ pub fn matrix_multiply(a: [[f64; 4]; 4], b: [[f64; 4]; 4]) -> [[f64; 4]; 4] {
 /// Converts a 4x4 f64 matrix to f32.
 pub fn matrix_to_f32(m: [[f64; 4]; 4]) -> [[f32; 4]; 4] {
     [
-        [m[0][0] as f32, m[0][1] as f32, m[0][2] as f32, m[0][3] as f32],
-        [m[1][0] as f32, m[1][1] as f32, m[1][2] as f32, m[1][3] as f32],
-        [m[2][0] as f32, m[2][1] as f32, m[2][2] as f32, m[2][3] as f32],
-        [m[3][0] as f32, m[3][1] as f32, m[3][2] as f32, m[3][3] as f32],
+        [
+            m[0][0] as f32,
+            m[0][1] as f32,
+            m[0][2] as f32,
+            m[0][3] as f32,
+        ],
+        [
+            m[1][0] as f32,
+            m[1][1] as f32,
+            m[1][2] as f32,
+            m[1][3] as f32,
+        ],
+        [
+            m[2][0] as f32,
+            m[2][1] as f32,
+            m[2][2] as f32,
+            m[2][3] as f32,
+        ],
+        [
+            m[3][0] as f32,
+            m[3][1] as f32,
+            m[3][2] as f32,
+            m[3][3] as f32,
+        ],
     ]
 }

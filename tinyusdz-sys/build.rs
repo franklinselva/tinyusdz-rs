@@ -1,15 +1,29 @@
 use std::env;
+use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
+
+/// The tinyusdz version/commit to use
+const TINYUSDZ_VERSION: &str = "f85cdb6ad60ffb67aeab907e9da8a644f7bd8815";
 
 fn main() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    let tinyusdz_dir = manifest_dir.parent().unwrap().join("tinyusdz");
+
+    // First check if tinyusdz exists as a sibling directory (for local development)
+    let local_tinyusdz = manifest_dir.parent().unwrap().join("tinyusdz");
+    let tinyusdz_dir = if local_tinyusdz.join("CMakeLists.txt").exists() {
+        println!("cargo:warning=Using local tinyusdz source at {:?}", local_tinyusdz);
+        local_tinyusdz
+    } else {
+        // Download tinyusdz source
+        download_tinyusdz(&out_dir)
+    };
+
     let build_dir = out_dir.join("build");
 
     // Create build directory
-    std::fs::create_dir_all(&build_dir).expect("Failed to create build directory");
+    fs::create_dir_all(&build_dir).expect("Failed to create build directory");
 
     // Configure with CMake
     let cmake_status = Command::new("cmake")
@@ -87,4 +101,53 @@ fn main() {
     // Rebuild if these files change
     println!("cargo:rerun-if-changed=wrapper.h");
     println!("cargo:rerun-if-changed=build.rs");
+}
+
+fn download_tinyusdz(out_dir: &PathBuf) -> PathBuf {
+    let tinyusdz_dir = out_dir.join(format!("tinyusdz-{}", TINYUSDZ_VERSION));
+
+    // Check if already downloaded
+    if tinyusdz_dir.join("CMakeLists.txt").exists() {
+        println!("cargo:warning=Using cached tinyusdz source at {:?}", tinyusdz_dir);
+        return tinyusdz_dir;
+    }
+
+    println!("cargo:warning=Downloading tinyusdz source...");
+
+    let archive_url = format!(
+        "https://github.com/syoyo/tinyusdz/archive/{}.tar.gz",
+        TINYUSDZ_VERSION
+    );
+    let archive_path = out_dir.join("tinyusdz.tar.gz");
+
+    // Download using curl (available on most systems)
+    let download_status = Command::new("curl")
+        .args(["-L", "-o"])
+        .arg(&archive_path)
+        .arg(&archive_url)
+        .status()
+        .expect("Failed to run curl. Please install curl or provide tinyusdz source manually.");
+
+    if !download_status.success() {
+        panic!("Failed to download tinyusdz source from {}", archive_url);
+    }
+
+    // Extract using tar
+    let extract_status = Command::new("tar")
+        .args(["-xzf"])
+        .arg(&archive_path)
+        .arg("-C")
+        .arg(out_dir)
+        .status()
+        .expect("Failed to run tar. Please install tar or provide tinyusdz source manually.");
+
+    if !extract_status.success() {
+        panic!("Failed to extract tinyusdz archive");
+    }
+
+    // Clean up archive
+    let _ = fs::remove_file(&archive_path);
+
+    println!("cargo:warning=Downloaded tinyusdz source to {:?}", tinyusdz_dir);
+    tinyusdz_dir
 }

@@ -13,7 +13,7 @@ keywords = ["usd", "usdz", "3d", "graphics", "parser"]
 categories = ["graphics", "parsing", "game-development"]
 
 [dependencies]
-tinyusdz-sys = { path = "tinyusdz-sys" }
+tinyusdz-sys = { version = "0.1.0", path = "tinyusdz-sys" }
 thiserror = "2.0"
 half = "2.4"
 

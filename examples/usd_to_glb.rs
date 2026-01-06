@@ -155,9 +155,9 @@ fn build_gltf(meshes: &[tinyusdz_rs::Mesh]) -> gltf_json::Root {
             buffer_view: Some(json::Index::new(position_buffer_view_idx)),
             byte_offset: Some(json::validation::USize64(0)),
             count: json::validation::USize64(triangulated.points.len() as u64),
-            component_type: json::validation::Checked::Valid(
-                json::accessor::GenericComponentType(json::accessor::ComponentType::F32),
-            ),
+            component_type: json::validation::Checked::Valid(json::accessor::GenericComponentType(
+                json::accessor::ComponentType::F32,
+            )),
             type_: json::validation::Checked::Valid(json::accessor::Type::Vec3),
             min: Some(json::Value::from(min.to_vec())),
             max: Some(json::Value::from(max.to_vec())),
@@ -173,9 +173,9 @@ fn build_gltf(meshes: &[tinyusdz_rs::Mesh]) -> gltf_json::Root {
             buffer_view: Some(json::Index::new(index_buffer_view_idx)),
             byte_offset: Some(json::validation::USize64(0)),
             count: json::validation::USize64(triangulated.face_vertex_indices.len() as u64),
-            component_type: json::validation::Checked::Valid(
-                json::accessor::GenericComponentType(json::accessor::ComponentType::U32),
-            ),
+            component_type: json::validation::Checked::Valid(json::accessor::GenericComponentType(
+                json::accessor::ComponentType::U32,
+            )),
             type_: json::validation::Checked::Valid(json::accessor::Type::Scalar),
             min: None,
             max: None,
@@ -236,9 +236,7 @@ fn build_gltf(meshes: &[tinyusdz_rs::Mesh]) -> gltf_json::Root {
     }
 
     // Create scene
-    let node_indices: Vec<_> = (0..root.nodes.len() as u32)
-        .map(json::Index::new)
-        .collect();
+    let node_indices: Vec<_> = (0..root.nodes.len() as u32).map(json::Index::new).collect();
 
     root.scenes.push(json::Scene {
         name: Some("Scene".to_string()),
