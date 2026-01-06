@@ -29,7 +29,8 @@ fn main() {
     fs::create_dir_all(&build_dir).expect("Failed to create build directory");
 
     // Configure with CMake
-    let cmake_status = Command::new("cmake")
+    let mut cmake_cmd = Command::new("cmake");
+    cmake_cmd
         .current_dir(&build_dir)
         .arg(&tinyusdz_dir)
         .arg("-DTINYUSDZ_WITH_C_API=ON")
@@ -37,9 +38,14 @@ fn main() {
         .arg("-DTINYUSDZ_BUILD_TESTS=OFF")
         .arg("-DTINYUSDZ_BUILD_EXAMPLES=OFF")
         .arg("-DTINYUSDZ_BUILD_SHARED_LIBS=OFF")
-        .arg("-DCMAKE_BUILD_TYPE=Release")
-        .status()
-        .expect("Failed to run cmake");
+        .arg("-DCMAKE_BUILD_TYPE=Release");
+
+    // On Linux with GCC 13+, disable the dangling-pointer warning that causes
+    // build failures in tinyusdz's scene-access.cc due to -Werror
+    #[cfg(target_os = "linux")]
+    cmake_cmd.arg("-DCMAKE_CXX_FLAGS=-Wno-dangling-pointer");
+
+    let cmake_status = cmake_cmd.status().expect("Failed to run cmake");
 
     if !cmake_status.success() {
         panic!("CMake configuration failed");
