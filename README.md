@@ -2,7 +2,7 @@
 
 [![Crates.io](https://img.shields.io/crates/v/tinyusdz-rs.svg)](https://crates.io/crates/tinyusdz-rs)
 [![Documentation](https://docs.rs/tinyusdz-rs/badge.svg)](https://docs.rs/tinyusdz-rs)
-[![License](https://img.shields.io/crates/l/tinyusdz-rs.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE-MIT)
 
 **Rust bindings for [tinyusdz](https://github.com/lighttransport/tinyusdz)** - A lightweight, portable USD/USDZ parser.
 
